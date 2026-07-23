@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+*.pyc
+data/aligned/
+data/preview/
+data/labels.txt
