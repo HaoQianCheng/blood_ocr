@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>血袋标签 OCR</title>
+<style>
+body { font-family: sans-serif; max-width: 640px; margin: 40px auto; }
+h2 { color: #c0392b; }
+form { margin: 16px 0; }
+pre { background: #f4f4f4; padding: 12px; border-radius: 6px; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<h2>血袋标签 OCR 识别</h2>
+<form id="f">
+  <input type="file" id="img" accept="image/*" required>
+  <button type="submit">识别</button>
+</form>
+<pre id="r">上传图片后点击「识别」</pre>
+<script>
+document.getElementById('f').onsubmit = async (e) => {
+  e.preventDefault();
+  const fd = new FormData();
+  fd.append('image', document.getElementById('img').files[0]);
+  const r = document.getElementById('r');
+  r.textContent = '识别中...';
+  try {
+    const res = await fetch('/api/ocr', {method: 'POST', body: fd});
+    const j = await res.json();
+    r.textContent = JSON.stringify(j, null, 2);
+  } catch (err) {
+    r.textContent = '请求失败: ' + err;
+  }
+};
+</script>
+</body>
+</html>
